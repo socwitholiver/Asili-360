@@ -2,6 +2,7 @@ export type ImageKey =
   | 'hero-savannah'
   | 'nganya-ride'
   | 'mood-nganya'
+  | 'nairobi-city'
   | 'beadwork'
   | 'street-food'
   | 'guesthouse'
@@ -355,7 +356,7 @@ export const bookings: Booking[] = [
 ];
 
 export const destinations: Destination[] = [
-  { name: 'Nairobi', description: 'The bustling capital', experiences: 12, image: 'nganya-ride' },
+  { name: 'Nairobi', description: 'The bustling capital', experiences: 12, image: 'nairobi-city' },
   { name: 'Amboseli', description: 'Safari paradise', experiences: 8, image: 'safari' },
   { name: 'Diani Beach', description: 'Coastal paradise', experiences: 6, image: 'beach' },
   { name: 'Kisumu', description: 'Lakeside culture', experiences: 5, image: 'beadwork' },
@@ -400,4 +401,5 @@ export function getTouristById(id: string): Tourist | undefined {
 export function getSMEById(id: string): SME | undefined {
   return smes.find((sme) => sme.id === id);
 }
+
 

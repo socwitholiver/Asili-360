@@ -11,6 +11,7 @@ const imageMap: Record<ImageKey, string> = {
   'hero-savannah': heroSavannah,
   'nganya-ride': nganyaRide,
   'mood-nganya': '/MOOD.jpg',
+  'nairobi-city': '/Nairobi.jpg',
   beadwork,
   'street-food': streetFood,
   guesthouse,
