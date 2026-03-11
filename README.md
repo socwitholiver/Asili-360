@@ -1,5 +1,7 @@
 # ASILI360
 
+![Asili360 logo](public/logo.png)
+
 ASILI360 is a React and Vite tourism experience platform focused on helping travelers discover Kenyan destinations, cultural experiences, and SME-hosted offerings.
 
 ## Tech stack
@@ -36,3 +38,4 @@ The app runs on `http://localhost:8080` by default.
 - `src/components` contains shared UI and feature components
 - `src/data` contains mock content used by the experience flows
 - `public` contains static assets served as-is
+

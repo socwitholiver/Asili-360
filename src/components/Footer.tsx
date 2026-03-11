@@ -1,5 +1,3 @@
-import logo from '../../images/logo-nav.png';
-
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-night-sky py-14">
@@ -7,7 +5,7 @@ export default function Footer() {
       <div className="container relative mx-auto px-4">
         <div className="footer-brand-shell flex flex-col items-center gap-8 rounded-[2rem] border border-white/10 px-6 py-8 md:flex-row md:items-end md:justify-between md:px-10">
           <div className="flex flex-col items-center gap-4 md:items-start">
-            <img src={logo} alt="ASILI360 logo" className="h-20 w-auto object-contain md:h-24" />
+            <img src="/logo.png" alt="ASILI360 logo" className="h-20 w-auto object-contain md:h-24" />
             <div className="space-y-1 text-center md:text-left">
               <p className="text-sm uppercase tracking-[0.24em] text-primary-foreground/55">Experience platform</p>
               <p className="text-base text-primary-foreground/78">Discover the Essence of Kenya</p>

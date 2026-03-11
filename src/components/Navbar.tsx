@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../../images/logo-nav.png';
 
 const navLinks = [
   { path: '/', label: 'Home' },
@@ -23,7 +22,7 @@ export default function Navbar() {
       <div className="navbar-shell mx-auto max-w-7xl overflow-hidden rounded-2xl border border-white/10 bg-background/78 shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl">
         <div className="flex h-20 items-center justify-between px-4 md:px-6">
           <Link to="/" className="flex items-center gap-3" aria-label="ASILI360 home">
-            <img src={logo} alt="ASILI360 logo" className="h-12 w-auto object-contain md:h-14" />
+            <img src="/logo.png" alt="ASILI360 logo" className="h-12 w-auto object-contain md:h-14" />
           </Link>
 
           <div className="hidden items-center gap-1 rounded-full border border-border/70 bg-background/55 px-2 py-2 lg:flex">

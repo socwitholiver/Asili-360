@@ -7,7 +7,6 @@ import ExperienceCard from '@/components/ExperienceCard';
 import ReviewCard from '@/components/ReviewCard';
 import BookingModal from '@/components/BookingModal';
 import { experiences, destinations, reviews } from '@/data/mockData';
-import heroLogo from '../../images/logo-hero.png';
 
 interface BookingModalState {
   open: boolean;
@@ -55,7 +54,7 @@ export default function Index() {
             transition={{ duration: 0.7 }}
             className="hero-logo-shell mx-auto mb-8 w-fit rounded-[2rem] px-4 py-4 md:px-6 md:py-5"
           >
-            <img src={heroLogo} alt="ASILI360 brand mark" className="h-24 w-auto object-contain sm:h-28 md:h-36" />
+            <img src="/logo.png" alt="ASILI360 brand mark" className="h-24 w-auto object-contain sm:h-28 md:h-36" />
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -227,3 +226,4 @@ export default function Index() {
     </div>
   );
 }
+
