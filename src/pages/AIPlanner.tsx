@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, MapPin, DollarSign, Calendar, LoaderCircle } from 'lucide-react';
+import NiaAvatar from '@/components/NiaAvatar';
 import {
   itineraryTemplates,
   type ItineraryTemplate,
@@ -71,7 +72,6 @@ export default function AIPlanner() {
       clearTimeout(generationTimerRef.current);
     }
 
-    // Simulate an async planner response while ensuring stale timers are cleaned up.
     generationTimerRef.current = setTimeout(() => {
       setItinerary(recommendedItinerary);
       setLoading(false);
@@ -81,11 +81,26 @@ export default function AIPlanner() {
 
   return (
     <div className="min-h-screen px-4 pb-16 pt-24">
-      <div className="container mx-auto max-w-3xl">
-        <div className="mb-10 text-center">
-          <Sparkles className="mx-auto mb-3 h-10 w-10 text-primary" />
-          <h1 className="font-display mb-2 text-4xl font-bold text-foreground">AI Travel Planner</h1>
-          <p className="text-muted-foreground">Tell us your preferences and we will craft your perfect Kenyan adventure.</p>
+      <div className="container mx-auto max-w-5xl">
+        <div className="nia-intro-panel mb-10 grid items-center gap-8 overflow-hidden rounded-[2rem] border border-border/70 p-6 md:grid-cols-[1.1fr_320px] md:p-8">
+          <div>
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+              <Sparkles className="h-4 w-4" /> Asili360 Travel Intelligence
+            </div>
+            <h1 className="font-display mb-3 text-4xl font-bold text-foreground md:text-5xl">Meet Nia</h1>
+            <p className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
+              Nia is your warm, travel-savvy guide for discovering Kenya. Share what you love, how much you want to spend,
+              and how long you are staying, and she will shape a journey that feels personal.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3 text-sm text-foreground">
+              <span className="rounded-full bg-background/80 px-4 py-2 shadow-sm ring-1 ring-border">Smart itinerary matching</span>
+              <span className="rounded-full bg-background/80 px-4 py-2 shadow-sm ring-1 ring-border">Culture-first travel ideas</span>
+              <span className="rounded-full bg-background/80 px-4 py-2 shadow-sm ring-1 ring-border">Fast, friendly trip planning</span>
+            </div>
+          </div>
+          <div className="mx-auto w-full max-w-[320px]">
+            <NiaAvatar />
+          </div>
         </div>
 
         <div className="space-y-8 rounded-2xl border border-border bg-card p-6 shadow-warm md:p-8">
@@ -156,15 +171,15 @@ export default function AIPlanner() {
             type="button"
             onClick={generatePlan}
             disabled={!budget || loading}
-            className="flex w-full items-center justify-center gap-2 rounded-xl py-4 text-lg font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50 gradient-sunset"
+            className="gradient-sunset flex w-full items-center justify-center gap-2 rounded-xl py-4 text-lg font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
           >
             {loading ? (
               <>
-                <LoaderCircle className="h-5 w-5 animate-spin" /> Generating your plan...
+                <LoaderCircle className="h-5 w-5 animate-spin" /> Nia is building your plan...
               </>
             ) : (
               <>
-                <Sparkles className="h-5 w-5" /> Generate My Itinerary
+                <Sparkles className="h-5 w-5" /> Ask Nia for My Itinerary
               </>
             )}
           </button>

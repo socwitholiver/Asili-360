@@ -1,6 +1,7 @@
 export type ImageKey =
   | 'hero-savannah'
   | 'nganya-ride'
+  | 'mood-nganya'
   | 'beadwork'
   | 'street-food'
   | 'guesthouse'
@@ -255,7 +256,7 @@ export const experiences: Experience[] = [
     currency: 'KES',
     rating: 4.8,
     reviewCount: 45,
-    image: 'nganya-ride',
+    image: 'mood-nganya',
     category: 'Nightlife',
     highlights: ['Graffiti matatu ride', 'Live DJ', 'Street food stop', 'Photo opportunities'],
   },
@@ -399,3 +400,4 @@ export function getTouristById(id: string): Tourist | undefined {
 export function getSMEById(id: string): SME | undefined {
   return smes.find((sme) => sme.id === id);
 }
+

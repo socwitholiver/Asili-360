@@ -10,6 +10,7 @@ import type { ImageKey } from '@/data/mockData';
 const imageMap: Record<ImageKey, string> = {
   'hero-savannah': heroSavannah,
   'nganya-ride': nganyaRide,
+  'mood-nganya': '/MOOD.jpg',
   beadwork,
   'street-food': streetFood,
   guesthouse,
