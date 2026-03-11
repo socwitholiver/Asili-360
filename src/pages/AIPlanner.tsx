@@ -1,121 +1,175 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, MapPin, DollarSign, Calendar } from 'lucide-react';
-import { itineraryTemplates } from '@/data/mockData';
+import { Sparkles, MapPin, DollarSign, Calendar, LoaderCircle } from 'lucide-react';
+import {
+  itineraryTemplates,
+  type ItineraryTemplate,
+  type TripBudget,
+  type TripInterest,
+} from '@/data/mockData';
 
-const budgetOptions = [
-  { value: 'budget', label: 'Budget', range: 'KES 5,000–10,000' },
-  { value: 'mid-range', label: 'Mid-Range', range: 'KES 15,000–25,000' },
+const budgetOptions: { value: TripBudget; label: string; range: string }[] = [
+  { value: 'budget', label: 'Budget', range: 'KES 5,000-10,000' },
+  { value: 'mid-range', label: 'Mid-Range', range: 'KES 15,000-25,000' },
   { value: 'luxury', label: 'Luxury', range: 'KES 30,000+' },
 ];
 
-const interestOptions = ['Culture', 'Safari', 'Food', 'Beach', 'Nightlife', 'Nature', 'Adventure'];
+const interestOptions: { label: string; value: TripInterest }[] = [
+  { label: 'Culture', value: 'culture' },
+  { label: 'Safari', value: 'safari' },
+  { label: 'Food', value: 'food' },
+  { label: 'Beach', value: 'beach' },
+  { label: 'Nightlife', value: 'nightlife' },
+  { label: 'Nature', value: 'nature' },
+  { label: 'Adventure', value: 'adventure' },
+];
 
 export default function AIPlanner() {
-  const [budget, setBudget] = useState('');
-  const [interests, setInterests] = useState<string[]>([]);
+  const [budget, setBudget] = useState<TripBudget | ''>('');
+  const [interests, setInterests] = useState<TripInterest[]>([]);
   const [days, setDays] = useState(3);
-  const [itinerary, setItinerary] = useState<typeof itineraryTemplates[0] | null>(null);
+  const [itinerary, setItinerary] = useState<ItineraryTemplate | null>(null);
   const [loading, setLoading] = useState(false);
+  const generationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const toggleInterest = (i: string) => {
-    setInterests(prev => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i]);
+  useEffect(() => {
+    return () => {
+      if (generationTimerRef.current) {
+        clearTimeout(generationTimerRef.current);
+      }
+    };
+  }, []);
+
+  const recommendedItinerary = useMemo(() => {
+    if (!budget) {
+      return null;
+    }
+
+    const matchingInterest = itineraryTemplates.find((template) =>
+      template.budget === budget && template.interests.some((interest) => interests.includes(interest)),
+    );
+
+    return matchingInterest ?? itineraryTemplates.find((template) => template.budget === budget) ?? itineraryTemplates[0];
+  }, [budget, interests]);
+
+  const toggleInterest = (interest: TripInterest) => {
+    setInterests((currentInterests) =>
+      currentInterests.includes(interest)
+        ? currentInterests.filter((currentInterest) => currentInterest !== interest)
+        : [...currentInterests, interest],
+    );
   };
 
   const generatePlan = () => {
+    if (!recommendedItinerary) {
+      return;
+    }
+
     setLoading(true);
-    setTimeout(() => {
-      const match = itineraryTemplates.find(t => t.budget === budget) || itineraryTemplates[0];
-      setItinerary(match);
+
+    if (generationTimerRef.current) {
+      clearTimeout(generationTimerRef.current);
+    }
+
+    // Simulate an async planner response while ensuring stale timers are cleaned up.
+    generationTimerRef.current = setTimeout(() => {
+      setItinerary(recommendedItinerary);
       setLoading(false);
-    }, 1500);
+      generationTimerRef.current = null;
+    }, 900);
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen px-4 pb-16 pt-24">
       <div className="container mx-auto max-w-3xl">
-        <div className="text-center mb-10">
-          <Sparkles className="h-10 w-10 text-primary mx-auto mb-3" />
-          <h1 className="font-display text-4xl font-bold text-foreground mb-2">AI Travel Planner</h1>
-          <p className="text-muted-foreground">Tell us your preferences and we'll craft your perfect Kenyan adventure</p>
+        <div className="mb-10 text-center">
+          <Sparkles className="mx-auto mb-3 h-10 w-10 text-primary" />
+          <h1 className="font-display mb-2 text-4xl font-bold text-foreground">AI Travel Planner</h1>
+          <p className="text-muted-foreground">Tell us your preferences and we will craft your perfect Kenyan adventure.</p>
         </div>
 
-        <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-warm space-y-8">
-          {/* Budget */}
+        <div className="space-y-8 rounded-2xl border border-border bg-card p-6 shadow-warm md:p-8">
           <div>
-            <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+            <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
               <DollarSign className="h-4 w-4 text-primary" /> Budget Range
             </label>
-            <div className="grid grid-cols-3 gap-3">
-              {budgetOptions.map(b => (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {budgetOptions.map((budgetOption) => (
                 <button
-                  key={b.value}
-                  onClick={() => setBudget(b.value)}
-                  className={`p-3 rounded-xl border text-center transition-colors ${
-                    budget === b.value ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted'
+                  key={budgetOption.value}
+                  type="button"
+                  onClick={() => setBudget(budgetOption.value)}
+                  className={`rounded-xl border p-3 text-center transition-colors ${
+                    budget === budgetOption.value ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted'
                   }`}
                 >
-                  <p className="font-semibold text-sm text-foreground">{b.label}</p>
-                  <p className="text-xs text-muted-foreground">{b.range}</p>
+                  <p className="text-sm font-semibold text-foreground">{budgetOption.label}</p>
+                  <p className="text-xs text-muted-foreground">{budgetOption.range}</p>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Interests */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+            <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
               <MapPin className="h-4 w-4 text-primary" /> Travel Interests
             </label>
             <div className="flex flex-wrap gap-2">
-              {interestOptions.map(i => (
+              {interestOptions.map((interestOption) => (
                 <button
-                  key={i}
-                  onClick={() => toggleInterest(i)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    interests.includes(i) ? 'gradient-sunset text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-border'
+                  key={interestOption.value}
+                  type="button"
+                  onClick={() => toggleInterest(interestOption.value)}
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                    interests.includes(interestOption.value)
+                      ? 'gradient-sunset text-primary-foreground'
+                      : 'bg-muted text-muted-foreground hover:bg-border'
                   }`}
                 >
-                  {i}
+                  {interestOption.label}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Days */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+            <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
               <Calendar className="h-4 w-4 text-primary" /> Number of Days
             </label>
             <div className="flex items-center gap-4">
-              {[2, 3, 5, 7].map(d => (
+              {[2, 3, 5, 7].map((dayCount) => (
                 <button
-                  key={d}
-                  onClick={() => setDays(d)}
-                  className={`w-12 h-12 rounded-xl font-semibold transition-colors ${
-                    days === d ? 'gradient-sunset text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-border'
+                  key={dayCount}
+                  type="button"
+                  onClick={() => setDays(dayCount)}
+                  className={`h-12 w-12 rounded-xl font-semibold transition-colors ${
+                    days === dayCount ? 'gradient-sunset text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-border'
                   }`}
                 >
-                  {d}
+                  {dayCount}
                 </button>
               ))}
             </div>
           </div>
 
           <button
+            type="button"
             onClick={generatePlan}
             disabled={!budget || loading}
-            className="w-full gradient-sunset text-primary-foreground py-4 rounded-xl font-semibold text-lg disabled:opacity-50 hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+            className="flex w-full items-center justify-center gap-2 rounded-xl py-4 text-lg font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50 gradient-sunset"
           >
             {loading ? (
-              <><span className="animate-spin">⏳</span> Generating your plan...</>
+              <>
+                <LoaderCircle className="h-5 w-5 animate-spin" /> Generating your plan...
+              </>
             ) : (
-              <><Sparkles className="h-5 w-5" /> Generate My Itinerary</>
+              <>
+                <Sparkles className="h-5 w-5" /> Generate My Itinerary
+              </>
             )}
           </button>
         </div>
 
-        {/* Generated Itinerary */}
         <AnimatePresence>
           {itinerary && (
             <motion.div
@@ -126,32 +180,35 @@ export default function AIPlanner() {
             >
               <h2 className="font-display text-2xl font-bold text-foreground">Your {days}-Day Kenya Adventure</h2>
               <div className="space-y-4">
-                {itinerary.days.map((day, i) => (
+                {itinerary.days.map((day, index) => (
                   <motion.div
                     key={day.day}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.2 }}
-                    className="flex gap-4 bg-card border border-border rounded-xl p-5 shadow-warm"
+                    transition={{ delay: index * 0.15 }}
+                    className="flex gap-4 rounded-xl border border-border bg-card p-5 shadow-warm"
                   >
-                    <div className="gradient-sunset w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <span className="text-primary-foreground font-bold">{day.day}</span>
+                    <div className="gradient-sunset flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl">
+                      <span className="font-bold text-primary-foreground">{day.day}</span>
                     </div>
                     <div className="flex-1">
                       <h3 className="font-display font-semibold text-foreground">{day.title}</h3>
-                      <p className="text-sm text-muted-foreground mt-1">{day.description}</p>
-                      <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{day.location}</span>
+                      <p className="mt-1 text-sm text-muted-foreground">{day.description}</p>
+                      <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                          {day.location}
+                        </span>
                         <span className="font-medium text-primary">KES {day.cost.toLocaleString()}</span>
                       </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
-              <div className="bg-muted/50 rounded-xl p-5 text-center">
+              <div className="rounded-xl bg-muted/50 p-5 text-center">
                 <p className="text-sm text-muted-foreground">Estimated Total</p>
                 <p className="text-2xl font-bold text-primary">
-                  KES {itinerary.days.reduce((sum, d) => sum + d.cost, 0).toLocaleString()}
+                  KES {itinerary.days.reduce((sum, day) => sum + day.cost, 0).toLocaleString()}
                 </p>
               </div>
             </motion.div>

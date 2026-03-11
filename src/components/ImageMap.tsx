@@ -5,17 +5,18 @@ import streetFood from '@/assets/street-food.jpg';
 import guesthouse from '@/assets/guesthouse.jpg';
 import safari from '@/assets/safari.jpg';
 import beach from '@/assets/beach.jpg';
+import type { ImageKey } from '@/data/mockData';
 
-const imageMap: Record<string, string> = {
+const imageMap: Record<ImageKey, string> = {
   'hero-savannah': heroSavannah,
   'nganya-ride': nganyaRide,
-  'beadwork': beadwork,
+  beadwork,
   'street-food': streetFood,
-  'guesthouse': guesthouse,
-  'safari': safari,
-  'beach': beach,
+  guesthouse,
+  safari,
+  beach,
 };
 
-export function getImage(key: string): string {
-  return imageMap[key] || heroSavannah;
+export function getImage(key: ImageKey): string {
+  return imageMap[key];
 }

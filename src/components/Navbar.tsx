@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Compass } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import logo from '../../images/logo-nav.png';
 
 const navLinks = [
   { path: '/', label: 'Home' },
@@ -18,59 +19,70 @@ export default function Navbar() {
   const location = useLocation();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
-      <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <Link to="/" className="flex items-center gap-2">
-          <Compass className="h-7 w-7 text-primary" />
-          <span className="font-display text-xl font-bold text-foreground">ASILI<span className="text-primary">360</span></span>
-        </Link>
+    <nav className="fixed top-0 left-0 right-0 z-50 px-3 pt-3 md:px-6">
+      <div className="navbar-shell mx-auto max-w-7xl overflow-hidden rounded-2xl border border-white/10 bg-background/78 shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl">
+        <div className="flex h-20 items-center justify-between px-4 md:px-6">
+          <Link to="/" className="flex items-center gap-3" aria-label="ASILI360 home">
+            <img src={logo} alt="ASILI360 logo" className="h-12 w-auto object-contain md:h-14" />
+          </Link>
 
-        <div className="hidden lg:flex items-center gap-1">
-          {navLinks.map(link => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                location.pathname === link.path
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
+          <div className="hidden items-center gap-1 rounded-full border border-border/70 bg-background/55 px-2 py-2 lg:flex">
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.path;
 
-        <button onClick={() => setOpen(!open)} className="lg:hidden p-2 text-foreground">
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden bg-background border-b border-border overflow-hidden"
-          >
-            <div className="px-4 py-2 space-y-1">
-              {navLinks.map(link => (
+              return (
                 <Link
                   key={link.path}
                   to={link.path}
-                  onClick={() => setOpen(false)}
-                  className={`block px-3 py-2 rounded-lg text-sm font-medium ${
-                    location.pathname === link.path ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground shadow-[0_8px_22px_rgba(245,117,23,0.28)]'
+                      : 'text-muted-foreground hover:bg-white/10 hover:text-foreground'
                   }`}
                 >
                   {link.label}
                 </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={() => setOpen(!open)}
+            className="rounded-full border border-border/60 bg-background/60 p-2 text-foreground transition-colors hover:bg-muted lg:hidden"
+            aria-label="Toggle navigation menu"
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden border-t border-border/70 bg-background/92 lg:hidden"
+            >
+              <div className="space-y-1 px-4 py-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setOpen(false)}
+                    className={`block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                      location.pathname === link.path
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </nav>
   );
 }
