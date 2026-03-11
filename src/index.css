@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -51,8 +51,8 @@
     --shadow-warm: 0 4px 24px -4px hsla(24, 95%, 53%, 0.15);
     --shadow-elevated: 0 12px 40px -8px hsla(20, 10%, 10%, 0.12);
 
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'DM Sans', sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Manrope', sans-serif;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -187,3 +187,4 @@
   0%, 100% { transform: scale(0.92); opacity: 0.72; }
   50% { transform: scale(1.06); opacity: 1; }
 }
+

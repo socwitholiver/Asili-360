@@ -15,8 +15,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Playfair Display", "serif"],
-        body: ["DM Sans", "sans-serif"],
+        display: ["Space Grotesk", "sans-serif"],
+        body: ["Manrope", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -95,3 +95,4 @@ export default {
   },
   plugins: [tailwindcssAnimate],
 } satisfies Config;
+
