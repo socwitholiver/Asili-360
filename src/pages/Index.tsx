@@ -79,7 +79,7 @@ export default function Index() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="font-body mx-auto mb-10 max-w-2xl text-base leading-8 text-primary-foreground/85 sm:text-lg md:text-xl"
           >
-            AI-powered travel experiences connecting you with artisans, culture, and adventure.
+            Nia-powered travel experiences connecting you with artisans, culture, and adventure.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -198,11 +198,11 @@ export default function Index() {
                   'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
               }}
             />
-            <p className="relative mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-primary-foreground/75">Planner</p>
+            <p className="relative mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-primary-foreground/75">Nia</p>
             <Sparkles className="relative mx-auto mb-4 h-12 w-12 text-primary-foreground" />
-            <h2 className="font-display relative mb-3 text-3xl font-bold text-primary-foreground md:text-4xl">AI Travel Planner</h2>
+            <h2 className="font-display relative mb-3 text-3xl font-bold text-primary-foreground md:text-4xl">Meet Nia</h2>
             <p className="relative mx-auto mb-6 max-w-lg text-primary-foreground/80">
-              Tell us your budget, interests, and trip length, and we will craft your ideal Kenyan adventure.
+              Tell Nia your budget, interests, and trip length, and she will craft your ideal Kenyan adventure.
             </p>
             <Link
               to="/ai-planner"
@@ -239,3 +239,4 @@ export default function Index() {
     </div>
   );
 }
+

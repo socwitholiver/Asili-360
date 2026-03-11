@@ -8,7 +8,7 @@ const navLinks = [
   { path: '/experiences', label: 'Experiences' },
   { path: '/sme-listings', label: 'SME Marketplace' },
   { path: '/nganya', label: 'Nganya Rides' },
-  { path: '/ai-planner', label: 'AI Planner' },
+  { path: '/ai-planner', label: 'Nia' },
   { path: '/sme-dashboard', label: 'SME Dashboard' },
   { path: '/county-dashboard', label: 'County Dashboard' },
 ];
@@ -85,3 +85,4 @@ export default function Navbar() {
     </nav>
   );
 }
+
